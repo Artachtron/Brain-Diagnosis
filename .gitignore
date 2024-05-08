@@ -1,0 +1,7 @@
+.venv
+poetry.lock
+.vscode/settings.json
+.pyc
+__pycache__
+backend/resources/*
+

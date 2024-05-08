@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "brain diagnosis"
+version = "0.1.0"
+description = ""
+authors = ["Artachtron <florent.vaucher@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+tensorflow-io-gcs-filesystem = "< 0.32.0"
+tensorflow = "^2.16.1"
+fastapi = "^0.111.0"
+pillow = "^10.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,87 @@
+import io
+from dataclasses import dataclass
+from typing import Any
+
+import numpy as np
+from config.utils import PATH
+from PIL import Image
+from tensorflow.keras.applications import vgg16, vgg19
+from tensorflow.keras.models import load_model
+
+
+@dataclass
+class Model:
+    filename: str
+    preprocessor: callable
+    input_shape: tuple[int, int]
+    _classes: list[str]
+    classifier: Any = None
+
+    def __post_init__(self):
+        print(f"Loading model {self.filename}...")
+        self.classifier = self.load()
+        print(f"Model {self.filename} loaded successfully.")
+
+    @property
+    def classes(self):
+        return sorted(self._classes)
+
+    def load(self):
+        return load_model(PATH.models / self.filename)
+
+    def preprocess(self, image):
+        img = Image.open(io.BytesIO(image))
+        img = img.resize(self.input_shape)
+        img_array = image.img_to_array(img)
+        img_array = np.expand_dims(img_array, axis=0)
+        processed_img = self.preprocessor(img_array)
+        return processed_img
+
+    def predict(self, image):
+        prediction = self.classifier.predict(image)
+        return self.classes[prediction.argmax()]
+
+
+class Classifier:
+    """ALZHEIMER = Model(
+        filename="alzheimer_vgg19_unfrozen.h5",
+        preprocessor=vgg19.preprocess_input,
+        input_shape=(208, 176),
+        _classes=[
+            "NonDemented",
+            "VeryMildDemented",
+            "MildDemented",
+            "ModerateDemented",
+        ],
+    )
+    STROKE = Model(
+        filename="stroke_vgg19_unfrozen.h5",
+        preprocessor=vgg19.preprocess_input,
+        input_shape=(224, 224),
+        _classes=["Yes", "No"],
+    )"""
+
+    TUMOR = Model(
+        # filename="tumor_vgg16_unfrozen.h5",
+        filename="brain_tumor_vgg16.h5",
+        preprocessor=vgg16.preprocess_input,
+        input_shape=(224, 224),
+        _classes=["Yes", "No"],
+    )
+
+
+if __name__ == "__main__":
+    classifier = Classifier.TUMOR
+    image_file: str = PATH.images / "test.jpg"
+
+    # img = Image.open(image_file)
+    # input_shape = (224, 224)
+    # img = img.resize(input_shape)
+    # img_array = image.img_to_array(img)
+    # img_array = np.expand_dims(img_array, axis=0)
+    # if img_array.shape[3] == 1:
+    #     img_array = np.repeat(img_array, 3, axis=3)
+
+    image = classifier.preprocess(image_file)
+    prediction = classifier.predict(image)
+    print(prediction)
