@@ -9,6 +9,7 @@ from tensorflow.keras.applications import vgg16, vgg19
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
+
 @dataclass
 class Model:
     filename: str
@@ -40,6 +41,11 @@ class Model:
     def predict(self, image):
         prediction = self.classifier.predict(image)
         return self.classes[prediction.argmax()]
+
+    def classify(self, image_bytes):
+        image = self.preprocess(image_bytes)
+        prediction = self.predict(image)
+        return prediction
 
 
 class Classifier:
@@ -73,8 +79,8 @@ class Classifier:
 if __name__ == "__main__":
     classifier = Classifier.TUMOR
     image_file: str = PATH.images / "test.jpg"
-    with open(image_file, 'rb') as f:
-            image_bytes = f.read()
+    with open(image_file, "rb") as f:
+        image_bytes = f.read()
     # img = Image.open(image_file)
     # input_shape = (224, 224)
     # img = img.resize(input_shape)
