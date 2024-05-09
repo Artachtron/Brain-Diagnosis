@@ -6,11 +6,12 @@ authors = ["Artachtron <florent.vaucher@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
+python = ">=3.9,<=3.10"
 tensorflow-io-gcs-filesystem = "< 0.32.0"
-tensorflow = "^2.16.1"
 fastapi = "^0.111.0"
 pillow = "^10.3.0"
+numpy = "^1.26.4"
+keras = "2.13.1"
 
 
 [build-system]

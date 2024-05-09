@@ -7,7 +7,7 @@ from config.utils import PATH
 from PIL import Image
 from tensorflow.keras.applications import vgg16, vgg19
 from tensorflow.keras.models import load_model
-
+from tensorflow.keras.preprocessing import image
 
 @dataclass
 class Model:
@@ -27,10 +27,10 @@ class Model:
         return sorted(self._classes)
 
     def load(self):
-        return load_model(PATH.models / self.filename)
+        return load_model(PATH.models / self.filename, compile=False)
 
-    def preprocess(self, image):
-        img = Image.open(io.BytesIO(image))
+    def preprocess(self, image_bytes):
+        img = Image.open(io.BytesIO(image_bytes))
         img = img.resize(self.input_shape)
         img_array = image.img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)
@@ -73,7 +73,8 @@ class Classifier:
 if __name__ == "__main__":
     classifier = Classifier.TUMOR
     image_file: str = PATH.images / "test.jpg"
-
+    with open(image_file, 'rb') as f:
+            image_bytes = f.read()
     # img = Image.open(image_file)
     # input_shape = (224, 224)
     # img = img.resize(input_shape)
@@ -82,6 +83,6 @@ if __name__ == "__main__":
     # if img_array.shape[3] == 1:
     #     img_array = np.repeat(img_array, 3, axis=3)
 
-    image = classifier.preprocess(image_file)
+    image = classifier.preprocess(image_bytes)
     prediction = classifier.predict(image)
     print(prediction)
