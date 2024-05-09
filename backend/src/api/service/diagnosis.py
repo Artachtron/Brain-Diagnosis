@@ -9,6 +9,7 @@ from tensorflow.keras.applications import vgg16, vgg19
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
+
 @dataclass
 class Model:
     filename: str
@@ -43,7 +44,7 @@ class Model:
 
 
 class Classifier:
-    """ALZHEIMER = Model(
+    ALZHEIMER = Model(
         filename="alzheimer_vgg19_unfrozen.h5",
         preprocessor=vgg19.preprocess_input,
         input_shape=(208, 176),
@@ -59,11 +60,10 @@ class Classifier:
         preprocessor=vgg19.preprocess_input,
         input_shape=(224, 224),
         _classes=["Yes", "No"],
-    )"""
+    )
 
     TUMOR = Model(
-        # filename="tumor_vgg16_unfrozen.h5",
-        filename="brain_tumor_vgg16.h5",
+        filename="brain_tumor_vgg16_unfrozen.h5",
         preprocessor=vgg16.preprocess_input,
         input_shape=(224, 224),
         _classes=["Yes", "No"],
@@ -73,8 +73,8 @@ class Classifier:
 if __name__ == "__main__":
     classifier = Classifier.TUMOR
     image_file: str = PATH.images / "test.jpg"
-    with open(image_file, 'rb') as f:
-            image_bytes = f.read()
+    with open(image_file, "rb") as f:
+        image_bytes = f.read()
     # img = Image.open(image_file)
     # input_shape = (224, 224)
     # img = img.resize(input_shape)
