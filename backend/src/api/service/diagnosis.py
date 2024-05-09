@@ -42,6 +42,11 @@ class Model:
         prediction = self.classifier.predict(image)
         return self.classes[prediction.argmax()]
 
+    def classify(self, image_bytes):
+        image = self.preprocess(image_bytes)
+        prediction = self.predict(image)
+        return prediction
+
 
 class Classifier:
     ALZHEIMER = Model(
