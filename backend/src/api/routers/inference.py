@@ -13,7 +13,7 @@ async def publish_results(file: UploadFile, disease: str = Form(...)):
         case "tumor":
             model = Classifier.TUMOR
         case "alzheimer":
-            model = Classifier.ALZHIMER
+            model = Classifier.ALZHEIMER
         case "stroke":
             model = Classifier.STROKE
         case _:

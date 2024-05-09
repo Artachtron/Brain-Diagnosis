@@ -18,14 +18,18 @@ class Model:
     _classes: list[str]
     classifier: Any = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         print(f"Loading model {self.filename}...")
         self.classifier = self.load()
         print(f"Model {self.filename} loaded successfully.")
 
     @property
-    def classes(self):
+    def classes(self) -> list[str]:
         return sorted(self._classes)
+    
+    @property
+    def binary(self) -> bool:
+        return len(self.classes) == 2
 
     def load(self):
         return load_model(PATH.models / self.filename, compile=False)
@@ -40,7 +44,13 @@ class Model:
 
     def predict(self, image):
         prediction = self.classifier.predict(image)
-        return self.classes[prediction.argmax()]
+        if self.binary:
+            label = self.classes[0] if prediction < 0.5 else self.classes[1]
+            value = prediction[0][0]
+        else:
+            label = self.classes[prediction.argmax()]
+            value = prediction[0][prediction.argmax()]
+        return label, value
 
     def classify(self, image_bytes):
         image = self.preprocess(image_bytes)
@@ -76,7 +86,7 @@ class Classifier:
 
 
 if __name__ == "__main__":
-    classifier = Classifier.TUMOR
+    classifier = Classifier.ALZHEIMER
     image_file: str = PATH.images / "test.jpg"
     with open(image_file, "rb") as f:
         image_bytes = f.read()
