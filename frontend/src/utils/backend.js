@@ -95,3 +95,40 @@ export const backendRequest = async (
     // credentials: "include",
   });
 };
+
+/* export function streamingResponse(response) {
+  return new Promise((resolve, reject) => {
+    let data = "";
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    reader.read().then(function process({ done, value }) {
+      if (done) {
+        resolve(data);
+        return;
+      }
+      data += decoder.decode(value);
+      reader.read().then(process).catch(reject);
+    });
+  });
+}
+ */
+
+export function streamingResponse(response, setData) {
+  let data = "";
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  return new Promise((resolve, reject) => {
+    reader.read().then(function process({ done, value }) {
+      if (done) {
+        resolve(data);
+        return;
+      }
+      data += decoder.decode(value);
+      if (setData) {
+        setData((prevData) => prevData + data);
+      }
+      reader.read().then(process).catch(reject);
+    });
+  });
+}
