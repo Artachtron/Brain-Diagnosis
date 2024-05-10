@@ -4,7 +4,7 @@ from fastapi import APIRouter, File, Form, UploadFile
 router = APIRouter()
 
 
-@router.post("/results")
+@router.post("/diagnose", name="diagnose")
 async def publish_results(file: UploadFile, disease: str = Form(...)):
     disease = disease.lower()
     model = None

@@ -23,3 +23,21 @@ middleware = [
 app = FastAPI(middleware=middleware)
 
 app.include_router(inference.router, prefix="/inference", tags=["inference"])
+
+
+@app.get("/routes", name="routes")
+def get_routes():
+    exlude_routes = [
+        "openapi",
+        "swagger_ui_html",
+        "swagger_ui_redirect",
+        "redoc_html",
+        "routes",
+    ]
+
+    routes = {}
+    for route in app.routes:
+        if route.name not in exlude_routes:
+            routes[route.name] = route.path
+
+    return routes
