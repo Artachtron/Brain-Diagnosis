@@ -26,9 +26,9 @@ class Model:
     @property
     def classes(self) -> list[str]:
         return sorted(self._classes)
-    
+
     @property
-    def binary(self) -> bool:
+    def is_binary(self) -> bool:
         return len(self.classes) == 2
 
     def load(self):
@@ -42,17 +42,17 @@ class Model:
         processed_img = self.preprocessor(img_array)
         return processed_img
 
-    def predict(self, image):
+    def predict(self, image) -> tuple[str, float]:
         prediction = self.classifier.predict(image)
-        if self.binary:
+        if self.is_binary:
             label = self.classes[0] if prediction < 0.5 else self.classes[1]
-            value = prediction[0][0]
+            value = 1 - prediction[0][0] if prediction < 0.5 else prediction[0][0]
         else:
             label = self.classes[prediction.argmax()]
             value = prediction[0][prediction.argmax()]
         return label, value
 
-    def classify(self, image_bytes):
+    def classify(self, image_bytes) -> tuple[str, float]:
         image = self.preprocess(image_bytes)
         prediction = self.predict(image)
         return prediction
