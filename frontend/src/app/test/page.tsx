@@ -12,12 +12,12 @@ export default function Test() {
   const [data, setData] = useState("");
 
   useEffect(() => {
-    // backendRequest("stream")
-    //   .then(streamingResponse)
-    //   .then((data) => {
-    //     setData(data);
-    //   })
-    //   .catch(console.error);
+    /* backendRequest("stream")
+      .then(streamingResponse)
+      .then((data) => {
+        setData(data);
+      })
+      .catch(console.error); */
 
     backendRequest("stream")
       .then((response) => streamingResponse(response, setData))

@@ -3,9 +3,13 @@ import React from "react";
 
 import FormBuilder from "@/components/form/form_builder";
 import Dropzone from "@/components/form/field/upload";
-import { backendRequest, sendFormData } from "@/utils/backend";
+import {
+  backendRequest,
+  sendFormData,
+  streamingResponse,
+} from "@/utils/backend";
 
-const DiagnosisForm = ({ formData, setFormData }) => {
+const DiagnosisForm = ({ formData, setFormData, setResponse }) => {
   const onSubmit = async (data) => {
     const form_data = new FormData();
     form_data.append("disease", "ALZHEIMER");
@@ -14,14 +18,12 @@ const DiagnosisForm = ({ formData, setFormData }) => {
       form_data.append("files", file);
     }
 
-    // data["disease"] = "ALZHEIMER";
-    for (var pair of form_data.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
-    const response = await sendFormData("diagnose", form_data);
-    console.log(response);
-    const result = await response.json();
-    console.log(result);
+    sendFormData("diagnose", form_data)
+      .then(streamingResponse)
+      .then((data) => {
+        setResponse(data);
+      })
+      .catch(console.error);
   };
 
   const setFiles = (files) => {

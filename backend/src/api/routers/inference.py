@@ -3,6 +3,8 @@ from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import io
+import json
+from typing import AsyncGenerator
 
 
 class DiagnoseResponse(BaseModel):
@@ -15,7 +17,7 @@ class DiagnoseResponse(BaseModel):
 router = APIRouter()
 
 
-@router.post("/diagnose", name="diagnose", response_model=DiagnoseResponse)
+@router.post("/diagnose", name="diagnose")
 async def diagnose(files: list[UploadFile] = File(...), disease: str = Form(...)):
     disease = disease.lower()
     model = None
@@ -30,10 +32,16 @@ async def diagnose(files: list[UploadFile] = File(...), disease: str = Form(...)
         case _:
             raise ValueError(f"Invalid disease: {disease}")
 
-    for f in files:
-        img = await f.read()
-        result = model.classify(img)
-    return {"disease": disease} | result
+    images = [await f.read() for f in files]
+
+    async def stream_results() -> AsyncGenerator[str, None]:
+        for idx, img in enumerate(images):
+            result = model.classify(img)
+            result["disease"] = disease
+            result["filename"] = files[idx].filename
+            yield json.dumps(result) + "\n"
+
+    return StreamingResponse(stream_results(), media_type="text/event-stream")
 
 
 @router.get("/stream", name="stream")

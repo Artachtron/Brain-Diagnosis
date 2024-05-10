@@ -17,8 +17,8 @@ const FormBuilder = (props: FormBuilderProps) => {
   };
 
   return (
-    <div className="flex justify-center">
-      <form onSubmit={handleSubmit} className="w-1/2 mx-auto">
+    <div>
+      <form onSubmit={handleSubmit} className="mx-5">
         {children}
         <div className="flex justify-center">
           <Button variant="contained" type="submit">

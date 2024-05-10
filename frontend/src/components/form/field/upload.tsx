@@ -2,7 +2,7 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-import { Button, FormControl, LinearProgress } from "@mui/material";
+import { Button, FormControl, LinearProgress, CardMedia } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -103,10 +103,12 @@ const Dropzone: React.FC<DropzoneProps> = ({
           {filesToProcess.map((file, index) => (
             <ListItem key={index}>
               <ListItemIcon>
-                <InsertDriveFileIcon
-                  color="primary"
-                  style={{ fontSize: 40 }}
-                  className="mr-5"
+                <CardMedia
+                  component="img"
+                  alt="Uploaded File"
+                  src={URL.createObjectURL(file)}
+                  title="Uploaded File"
+                  className="w-24 h-24 object-cover mr-4"
                 />
               </ListItemIcon>
               <Box width={1}>
