@@ -1,5 +1,5 @@
 import io
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
@@ -16,6 +16,7 @@ class Model:
     preprocessor: callable
     input_shape: tuple[int, int]
     _classes: list[str]
+    label_format: dict[str, str] = field(default_factory=dict)
     classifier: Any = None
 
     def __post_init__(self) -> None:
@@ -31,6 +32,15 @@ class Model:
     def is_binary(self) -> bool:
         return len(self.classes) == 2
 
+    def gravity(self, label: str) -> int:
+        if self.is_binary:
+            return 0 if label == self.classes[0] else 10
+
+        if label == self._classes[-1]:
+            return 10
+
+        return self._classes.index(label)
+
     def load(self):
         return load_model(PATH.models / self.filename, compile=False)
 
@@ -42,7 +52,7 @@ class Model:
         processed_img = self.preprocessor(img_array)
         return processed_img
 
-    def predict(self, image) -> tuple[str, float]:
+    def predict(self, image) -> dict[str, float | str]:
         prediction = self.classifier.predict(image)
         if self.is_binary:
             label = self.classes[0] if prediction < 0.5 else self.classes[1]
@@ -50,12 +60,22 @@ class Model:
         else:
             label = self.classes[prediction.argmax()]
             value = prediction[0][prediction.argmax()]
+
         return label, value
 
-    def classify(self, image_bytes) -> tuple[str, float]:
+    def classify(self, image_bytes) -> dict[str, float | str]:
         image = self.preprocess(image_bytes)
         prediction = self.predict(image)
-        return prediction
+        return self.format_prediction(prediction)
+
+    def format_prediction(
+        self, prediction: dict[str, float | str]
+    ) -> dict[str, float | str]:
+        return {
+            "label": self.label_format.get(prediction[0], prediction[0]),
+            "confidence": float(prediction[1]),
+            "gravity": self.gravity(prediction[0]),
+        }
 
 
 class Classifier:
@@ -69,12 +89,19 @@ class Classifier:
             "MildDemented",
             "ModerateDemented",
         ],
+        label_format={
+            "NonDemented": "No Dementia",
+            "VeryMildDemented": "Very Mild Dementia",
+            "MildDemented": "Mild Dementia",
+            "ModerateDemented": "Moderate Dementia",
+        },
     )
     STROKE = Model(
         filename="stroke_vgg19_unfrozen.h5",
         preprocessor=vgg19.preprocess_input,
         input_shape=(224, 224),
         _classes=["Yes", "No"],
+        label_format={"Yes": "Brain Stroke", "No": "No Brain Stroke"},
     )
 
     TUMOR = Model(
@@ -82,6 +109,7 @@ class Classifier:
         preprocessor=vgg16.preprocess_input,
         input_shape=(224, 224),
         _classes=["Yes", "No"],
+        label_format={"Yes": "Brain Tumor", "No": "No Brain Tumor"},
     )
 
 

@@ -59,6 +59,14 @@ export const getApiUrl = async (endpoint, params) => {
   return `${BASE_URL}${urlWithParams}`;
 };
 
+export const sendFormData = async (endpoint, formData) => {
+  const url = await getEndpoint(endpoint);
+  return fetch(url, {
+    method: "POST",
+    body: formData,
+  });
+};
+
 export const backendRequest = async (
   endpoint,
   params = {},
@@ -75,15 +83,15 @@ export const backendRequest = async (
     "body:",
     body
   );
-  console.log("token:", localStorage.getItem("token"));
+  // console.log("token:", localStorage.getItem("token"));
   const url = await getEndpoint(endpoint, params);
   return fetch(url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token") || "",
+      // Authorization: "Bearer " + localStorage.getItem("token") || "",
     },
     body: JSON.stringify(body),
-    credentials: "include",
+    // credentials: "include",
   });
 };

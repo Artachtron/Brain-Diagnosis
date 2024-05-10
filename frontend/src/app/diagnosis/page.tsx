@@ -1,10 +1,13 @@
 "use client";
-import UploadForm from "@/components/form/diagnosis";
+import DiagnosisForm from "@/components/form/diagnosis";
+import React, { useState } from "react";
 
 export default function Diagnosis() {
+  const [formData, setFormData] = useState({});
+
   return (
     <div>
-      <UploadForm />
+      <DiagnosisForm formData={formData} setFormData={setFormData} />
     </div>
   );
 }

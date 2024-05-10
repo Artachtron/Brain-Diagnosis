@@ -5,7 +5,7 @@ router = APIRouter()
 
 
 @router.post("/diagnose", name="diagnose")
-async def publish_results(file: UploadFile, disease: str = Form(...)):
+async def diagnose(files: list[UploadFile], disease: str = Form(...)):
     disease = disease.lower()
     model = None
 
@@ -19,6 +19,7 @@ async def publish_results(file: UploadFile, disease: str = Form(...)):
         case _:
             raise ValueError(f"Invalid disease: {disease}")
 
-    img = await file.read()
-    result = model.classify(img)
-    return {"disease": disease, "result": result}
+    for f in files:
+        img = await f.read()
+        result = model.classify(img)
+    return {"disease": disease} | result

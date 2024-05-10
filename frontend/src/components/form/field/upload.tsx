@@ -26,35 +26,14 @@ const Dropzone: React.FC<DropzoneProps> = ({
   setFiles,
   multiple = true,
 }) => {
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
-
   const onDrop = useCallback(
-    async (acceptedFiles) => {
-      const filesToProcess = multiple ? acceptedFiles : [acceptedFiles[0]];
+    (acceptedFiles) => {
+      setFiles(acceptedFiles);
+    },
+    [setFiles]
+  );
 
-      filesToProcess.forEach((file) => {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          setFiles((prevFiles) => [...prevFiles, reader.result as string]);
-        };
-
-        reader.readAsDataURL(file);
-      });
-
-      setUploadStatus("uploading");
-
-      let progress = 0;
+  /* let progress = 0;
       const interval = setInterval(() => {
         progress += 10;
         setProgress(progress);
@@ -65,8 +44,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
         }
       }, 100);
     },
-    [setFiles]
-  );
+*/
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     noClick: true,
