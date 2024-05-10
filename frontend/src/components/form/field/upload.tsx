@@ -26,25 +26,14 @@ const Dropzone: React.FC<DropzoneProps> = ({
   setFiles,
   multiple = true,
 }) => {
+  
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles(acceptedFiles);
     },
     [setFiles]
   );
-
-  /* let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        setProgress(progress);
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          setUploadStatus("done");
-        }
-      }, 100);
-    },
-*/
 
   const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
     noClick: true,

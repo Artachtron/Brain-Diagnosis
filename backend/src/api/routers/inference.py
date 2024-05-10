@@ -43,6 +43,28 @@ async def diagnose(files: list[UploadFile] = File(...), disease: str = Form(...)
 
     return StreamingResponse(stream_results(), media_type="text/event-stream")
 
+router.post("/diagnose_one", name="diagnose_one")
+async def diagnose_one(file: UploadFile = File(...), disease: str = Form(...)):
+    disease = disease.lower()
+    model = None
+
+    match disease:
+        case "tumor":
+            model = Classifier.TUMOR
+        case "alzheimer":
+            model = Classifier.ALZHEIMER
+        case "stroke":
+            model = Classifier.STROKE
+        case _:
+            raise ValueError(f"Invalid disease: {disease}")
+
+    image = await file.read()
+    result = model.classify(image)
+    result["disease"] = disease
+    result["filename"] = file.filename
+
+    return result
+
 
 @router.get("/stream", name="stream")
 async def test():

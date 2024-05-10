@@ -13,12 +13,14 @@ const formatConfidence = (confidence) => {
 };
 
 const Report = ({ input, output }) => {
-  console.log(output);
-  input.files.map((file) => console.log(file.name));
-  output.map((item, index) => console.log(item.label));
+  const disease = input.disease;
+  console.log(input);
 
   return (
     <div>
+      <h1 className="text-3xl font-bold mb-4">
+        Diagnosis Report for <span className="text-purple-800">{disease}</span>
+      </h1>
       {output.map((item, index) => {
         const file = input.files.find((file) => file.name === item.filename);
         const colorClass = colorMap[item.gravity] || "text-black";

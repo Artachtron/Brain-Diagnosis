@@ -1,11 +1,21 @@
 "use client";
 import DiagnosisForm from "@/components/form/diagnosis";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Report from "@/components/report";
+import { useSearchParams } from "next/navigation";
 
 export default function Diagnosis() {
-  const [formData, setFormData] = useState({});
+  const searchParams = useSearchParams();
+  const [formData, setFormData] = useState({
+    disease: searchParams.get("disease") || "",
+  });
   const [response, setResponse] = useState("");
+
+  useEffect(() => {
+    if (searchParams.get("disease")) {
+      setFormData({ disease: searchParams.get("disease") });
+    }
+  }, [searchParams]);
 
   function splitResponse(response) {
     if (!response) return null;

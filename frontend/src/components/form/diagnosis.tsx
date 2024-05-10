@@ -3,16 +3,12 @@ import React from "react";
 
 import FormBuilder from "@/components/form/form_builder";
 import Dropzone from "@/components/form/field/upload";
-import {
-  backendRequest,
-  sendFormData,
-  streamingResponse,
-} from "@/utils/backend";
+import { sendFormData, streamingResponse } from "@/utils/backend";
 
 const DiagnosisForm = ({ formData, setFormData, setResponse }) => {
   const onSubmit = async (data) => {
     const form_data = new FormData();
-    form_data.append("disease", "ALZHEIMER");
+    form_data.append("disease", formData.disease);
 
     for (const file of data.files) {
       form_data.append("files", file);
