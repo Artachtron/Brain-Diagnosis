@@ -10,6 +10,12 @@ export default function Diagnosis() {
     disease: searchParams.get("disease") || "",
   });
   const [response, setResponse] = useState("");
+  const [analyzed, setAnalyzed] = useState(0);
+
+  useEffect(() => {
+    const diagnoses = splitResponse(response);
+    setAnalyzed(diagnoses?.length || 0);
+  }, [response]);
 
   useEffect(() => {
     if (searchParams.get("disease")) {
@@ -19,7 +25,7 @@ export default function Diagnosis() {
 
   function splitResponse(response) {
     if (!response) return null;
-    console.log(response);
+    // console.log(response);
     return response
       .split("\n")
       .filter((line) => line.trim() !== "")
@@ -33,6 +39,7 @@ export default function Diagnosis() {
           formData={formData}
           setFormData={setFormData}
           setResponse={setResponse}
+          analyzed={analyzed}
         />
       </div>
       {response && (

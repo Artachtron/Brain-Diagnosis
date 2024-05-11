@@ -96,23 +96,6 @@ export const backendRequest = async (
   });
 };
 
-/* export function streamingResponse(response) {
-  return new Promise((resolve, reject) => {
-    let data = "";
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    reader.read().then(function process({ done, value }) {
-      if (done) {
-        resolve(data);
-        return;
-      }
-      data += decoder.decode(value);
-      reader.read().then(process).catch(reject);
-    });
-  });
-}
- */
-
 export function streamingResponse(response, setData) {
   let data = "";
   const reader = response.body.getReader();
@@ -130,5 +113,38 @@ export function streamingResponse(response, setData) {
       }
       reader.read().then(process).catch(reject);
     });
+  });
+}
+
+export function uploadFileWithProgress(endpoint, file, data = {}, onProgress) {
+  return new Promise(async (resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append("file", file);
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    const url = await getEndpoint(endpoint);
+    xhr.open("POST", url);
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        const percentCompleted = Math.round((event.loaded * 100) / event.total);
+        onProgress(percentCompleted);
+      }
+    });
+
+    xhr.onload = () => {
+      if (xhr.status !== 200) {
+        reject("File upload failed");
+      } else {
+        resolve(xhr.response);
+      }
+    };
+
+    xhr.onerror = () => {
+      reject("Network error");
+    };
+
+    xhr.send(formData);
   });
 }

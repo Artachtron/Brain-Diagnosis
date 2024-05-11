@@ -43,7 +43,8 @@ async def diagnose(files: list[UploadFile] = File(...), disease: str = Form(...)
 
     return StreamingResponse(stream_results(), media_type="text/event-stream")
 
-router.post("/diagnose_one", name="diagnose_one")
+
+@router.post("/diagnose_one", name="diagnose_one")
 async def diagnose_one(file: UploadFile = File(...), disease: str = Form(...)):
     disease = disease.lower()
     model = None

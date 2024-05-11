@@ -5,7 +5,7 @@ import FormBuilder from "@/components/form/form_builder";
 import Dropzone from "@/components/form/field/upload";
 import { sendFormData, streamingResponse } from "@/utils/backend";
 
-const DiagnosisForm = ({ formData, setFormData, setResponse }) => {
+const DiagnosisForm = ({ formData, setFormData, setResponse, analyzed }) => {
   const onSubmit = async (data) => {
     const form_data = new FormData();
     form_data.append("disease", formData.disease);
@@ -33,7 +33,12 @@ const DiagnosisForm = ({ formData, setFormData, setResponse }) => {
       formData={formData}
       setFormData={setFormData}
       children={[
-        <Dropzone key="dropzone" label="Upload a file" setFiles={setFiles} />,
+        <Dropzone
+          key="dropzone"
+          label="Upload a file"
+          setFiles={setFiles}
+          analyzed={analyzed}
+        />,
       ]}
     />
   );
