@@ -12,6 +12,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Box from "@mui/material/Box";
 import { uploadFileWithProgress } from "@/utils/backend";
+import FileProgressBar from "./file_progress_bar";
 
 interface DropzoneProps {
   label: string;
@@ -119,6 +120,11 @@ const Dropzone: React.FC<DropzoneProps> = ({
     }
   }, [shouldUpdateProgress]);
 
+  const filesProgress = (progress) => {
+    return (progress / filesToProcess.length) * 100;
+  };
+  const fileProgressValue = filesProgress(progress);
+
   return (
     <FormControl fullWidth>
       <label className="text-gray-500">{label}</label>
@@ -151,6 +157,28 @@ const Dropzone: React.FC<DropzoneProps> = ({
       </Box>
       {/* Progress status */}
       <Box className="flex flex-col justify-center border-2 border-purple-700 rounded-xl p-1  mb-2 bg-cyan-100 min-h-[100px]">
+        {filesToProcess.length > 0 && (
+          <Box>
+            <Box className="mt-3 ml-5 mr-5">
+              {/* <LinearProgress variant="determinate" value={fileProgressValue} /> */}
+              <FileProgressBar
+                value={fileProgressValue}
+                fileCount={filesToProcess.length}
+              />
+            </Box>
+            <Box className="flex justify-between">
+              {/* {fileProgressValue < 100 ? (
+                <Typography color="primary" className="text-xs">
+                  {`Uploading ${progress}/${filesToProcess.length}`}
+                </Typography>
+              ) : (
+                <Typography color="primary" className="text-xs">
+                  {`Uploaded ${progress}/${filesToProcess.length}`}
+                </Typography>
+              )} */}
+            </Box>
+          </Box>
+        )}
         <List>
           {filesToProcess.map((file, index) => {
             const status = statuses[index] || 0;
