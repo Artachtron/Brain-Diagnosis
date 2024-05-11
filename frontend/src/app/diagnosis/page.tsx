@@ -33,7 +33,7 @@ export default function Diagnosis() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex pt-5">
       <div className="w-1/2">
         <DiagnosisForm
           formData={formData}

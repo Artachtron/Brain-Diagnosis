@@ -11,12 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-
+import { useTheme } from "@mui/system";
 const colorMap = {
-  0: "text-green-500",
-  1: "text-yellow-500",
-  2: "text-orange-500",
-  10: "text-red-500",
+  0: "#013a63",
+  1: "#01497c",
+  2: "#2a6f97",
+  10: "#468faf",
 };
 
 const formatConfidence = (confidence) => {
@@ -27,6 +27,7 @@ const Report = ({ input, output, progress }) => {
   const disease = input.disease;
   const [labels, setLabels] = useState([]);
   const classes = output[0].classes;
+  const theme = useTheme();
 
   useEffect(() => {
     // if (input.files.length === output.length) {
@@ -48,9 +49,18 @@ const Report = ({ input, output, progress }) => {
   console.log(labels);
 
   return (
-    <div className="border-2 border-purple-700 rounded-xl p-5 mb-2 bg-cyan-100">
-      <h1 className="text-3xl font-bold mb-4 text-center">
-        Diagnosis Report for <span className="text-purple-800">{disease}</span>
+    <div
+      className="border-2 border-purple-700 rounded-xl p-5 mb-2"
+      style={{ backgroundColor: "#ccccff" }}
+    >
+      <h1 className="text-3xl mb-4 text-center">
+        Diagnosis Report for{" "}
+        <Typography
+          className="text-3xl font-bold text-purple-800"
+          component="span"
+        >
+          {disease}
+        </Typography>
       </h1>
       <div className="grid grid-cols-3 gap-0">
         {output.map((item, index) => {
@@ -60,7 +70,10 @@ const Report = ({ input, output, progress }) => {
           return (
             <div key={index} className="flex items-center mb-4">
               <div className="flex flex-col items-center mr-4">
-                <Typography style={{ fontSize: "8px" }} className="text-center">
+                <Typography
+                  style={{ fontSize: "10px" }}
+                  className="text-center"
+                >
                   {item.filename}
                 </Typography>
                 {file && (
@@ -73,7 +86,10 @@ const Report = ({ input, output, progress }) => {
                 )}
               </div>
               <div>
-                <Typography className={`${colorClass} text-2xl`}>
+                <Typography
+                  className={`text-xl font-bold`}
+                  style={{ color: colorClass }}
+                >
                   {item.label}
                 </Typography>
                 <Typography>
@@ -87,7 +103,7 @@ const Report = ({ input, output, progress }) => {
       {labels && (
         <TableContainer component={Paper}>
           <Table>
-            <TableHead className="bg-purple-800">
+            <TableHead className="bg-purple-800 text-white">
               <TableRow>
                 <TableCell className="text-white">Label</TableCell>
                 <TableCell className="text-white" align="right">
