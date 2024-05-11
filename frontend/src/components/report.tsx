@@ -12,7 +12,7 @@ const formatConfidence = (confidence) => {
   return (confidence * 100).toFixed(2) + "%";
 };
 
-const Report = ({ input, output }) => {
+const Report = ({ input, output, progress }) => {
   const disease = input.disease;
   console.log(input);
 
@@ -22,6 +22,7 @@ const Report = ({ input, output }) => {
         Diagnosis Report for <span className="text-purple-800">{disease}</span>
       </h1>
       {output.map((item, index) => {
+        if (index >= progress) return null;
         const file = input.files.find((file) => file.name === item.filename);
         const colorClass = colorMap[item.gravity] || "text-black";
         return (

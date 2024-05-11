@@ -11,6 +11,7 @@ export default function Diagnosis() {
   });
   const [response, setResponse] = useState("");
   const [analyzed, setAnalyzed] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const diagnoses = splitResponse(response);
@@ -22,6 +23,10 @@ export default function Diagnosis() {
       setFormData({ disease: searchParams.get("disease") });
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    console.log(progress);
+  }, [progress]);
 
   function splitResponse(response) {
     if (!response) return null;
@@ -40,11 +45,17 @@ export default function Diagnosis() {
           setFormData={setFormData}
           setResponse={setResponse}
           analyzed={analyzed}
+          progress={progress}
+          setProgress={setProgress}
         />
       </div>
       {response && (
         <div className="w-1/2">
-          <Report input={formData} output={splitResponse(response)} />
+          <Report
+            input={formData}
+            output={splitResponse(response)}
+            progress={progress}
+          />
         </div>
       )}
     </div>

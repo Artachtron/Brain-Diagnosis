@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button, FormControl, LinearProgress, CardMedia } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -18,6 +18,8 @@ interface DropzoneProps {
   files: string[];
   setFiles: React.Dispatch<React.SetStateAction<string[]>>;
   analyzed?: number;
+  progress?: number;
+  setProgress?: React.Dispatch<React.SetStateAction<number>>;
   multiple?: boolean;
 }
 
@@ -26,6 +28,8 @@ const Dropzone: React.FC<DropzoneProps> = ({
   files = [],
   setFiles,
   analyzed = 0,
+  progress,
+  setProgress,
   multiple = true,
 }) => {
   const onDrop = useCallback(
@@ -41,15 +45,22 @@ const Dropzone: React.FC<DropzoneProps> = ({
     onDrop,
   });
 
-  const [progress, setProgress] = useState(0);
   const [statuses, setStatuses] = useState([0]);
   const [uploadStatus, setUploadStatus] = useState("select");
+  const [shouldUpdateProgress, setShouldUpdateProgress] = useState(false);
   const filesToProcess =
     acceptedFiles.length > 0
       ? multiple
         ? acceptedFiles
         : [acceptedFiles[0]]
       : [];
+
+  const setStatusesRef = useRef(setStatuses);
+
+  // Keep the ref updated with the latest setStatuses function
+  useEffect(() => {
+    setStatusesRef.current = setStatuses;
+  }, [setStatuses]);
 
   useEffect(() => {
     if (analyzed === 0) {
@@ -60,43 +71,53 @@ const Dropzone: React.FC<DropzoneProps> = ({
     let uploadedStatus = 50;
     let completedStatus = 100;
 
-    setStatuses(() =>
+    setStatusesRef.current((prevStatuses) =>
       Array.from({ length: analyzed + 1 }, (_, index) => {
-        if (index === analyzed) {
-          return uploadedStatus;
-        } else if (index < analyzed) {
-          return completedStatus;
+        if (index < prevStatuses.length) {
+          return prevStatuses[index];
         } else {
           return 0; // default value for non-existing indices
         }
       })
     );
+
+    const intervalId = setInterval(() => {
+      setStatusesRef.current((prevStatuses) =>
+        prevStatuses.map((status, index) => {
+          if (index === analyzed) {
+            // Check if the previous status has reached its final value
+            if (index > 0 && prevStatuses[index - 1] < completedStatus) {
+              return status;
+            }
+            const newStatus = Math.min(status + 10, uploadedStatus);
+            return newStatus;
+          } else if (index < analyzed) {
+            // Check if the previous status has reached its final value
+            if (index > 0 && prevStatuses[index - 1] < completedStatus) {
+              return status;
+            }
+            const newStatus = Math.min(status + 10, completedStatus);
+            // Check if the status has just reached completedStatus and increment progress
+            if (newStatus === completedStatus && status < completedStatus) {
+              setShouldUpdateProgress(true);
+            }
+            return newStatus;
+          } else {
+            return status;
+          }
+        })
+      );
+    }, 5);
+
+    return () => clearInterval(intervalId);
   }, [analyzed]);
 
   useEffect(() => {
-    console.log(statuses);
-  }, [statuses]);
-
-  /* useEffect(() => {
-    const handleFileUpload = async () => {
-      for (const file of filesToProcess) {
-        try {
-          const response = await uploadFileWithProgress(
-            "diagnose_one",
-            file,
-            setProgress
-          );
-          console.log(response);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-
-    if (filesToProcess.length > 0) {
-      handleFileUpload();
+    if (shouldUpdateProgress) {
+      setProgress((prevProgress) => prevProgress + 1);
+      setShouldUpdateProgress(false);
     }
-  }, [filesToProcess]); */
+  }, [shouldUpdateProgress]);
 
   return (
     <FormControl fullWidth>
@@ -153,7 +174,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
                       <LinearProgress variant="determinate" value={status} />
                     </Box>
                     <Box className="ml-5 w-7 h-7 rounded-full bg-white flex items-center justify-center">
-                      {status < 50 ? (
+                      {status < 100 ? (
                         <Typography
                           color="primary"
                           className="text-xs"
