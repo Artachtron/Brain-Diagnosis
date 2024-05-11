@@ -1,5 +1,5 @@
 "use client";
-import { CardMedia } from "@mui/material";
+import { CardMedia, Typography } from "@mui/material";
 
 const colorMap = {
   0: "text-green-500",
@@ -27,17 +27,26 @@ const Report = ({ input, output, progress }) => {
         const colorClass = colorMap[item.gravity] || "text-black";
         return (
           <div key={index} className="flex items-center mb-4">
-            {file && (
-              <CardMedia
-                component="img"
-                alt={file.name}
-                image={URL.createObjectURL(file)}
-                className="w-24 h-24 object-cover mr-4"
-              />
-            )}
+            <div className="flex flex-col items-center mr-4">
+              <Typography style={{ fontSize: "8px" }} className="text-center">
+                {item.filename}
+              </Typography>
+              {file && (
+                <CardMedia
+                  component="img"
+                  alt={file.name}
+                  image={URL.createObjectURL(file)}
+                  className="w-24 h-24 object-cover mt-2"
+                />
+              )}
+            </div>
             <div>
-              <p className={`${colorClass} text-2xl`}>{item.label}</p>
-              <p>Confidence: {formatConfidence(item.confidence)}</p>
+              <Typography className={`${colorClass} text-2xl`}>
+                {item.label}
+              </Typography>
+              <Typography>
+                Confidence: {formatConfidence(item.confidence)}
+              </Typography>
             </div>
           </div>
         );
