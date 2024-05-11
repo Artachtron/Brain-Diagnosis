@@ -20,11 +20,13 @@ const FormBuilder = (props: FormBuilderProps) => {
     <div>
       <form onSubmit={handleSubmit} className="mx-5">
         {children}
-        <div className="flex justify-center">
-          <Button variant="contained" type="submit">
-            {submit_label}
-          </Button>
-        </div>
+        {formData.files && (
+          <div className="flex justify-center">
+            <Button variant="contained" type="submit">
+              {submit_label}
+            </Button>
+          </div>
+        )}
       </form>
     </div>
   );
