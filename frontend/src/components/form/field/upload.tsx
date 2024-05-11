@@ -94,10 +94,10 @@ const Dropzone: React.FC<DropzoneProps> = ({
 
   return (
     <FormControl fullWidth>
-      <label className="text-gray-500">{label}</label>
+      {/* <label className="text-gray-500">{label}</label> */}
       <Box
         {...getRootProps({
-          className: `flex flex-col items-center justify-center border-2 border-dashed border-purple-700 rounded-xl p-5 cursor-pointer mb-2 bg-cyan-100`,
+          className: `flex flex-col items-center justify-center border-2 border-dashed border-purple-700 rounded-xl p-2 cursor-pointer mb-2 bg-cyan-100`,
         })}
       >
         <Box className="flex flex-col items-center justify-center mb-5">
@@ -123,7 +123,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
         <aside></aside>
       </Box>
       {/* Progress status */}
-      <Box className="flex flex-col justify-center border-2 border-purple-700 rounded-xl p-1  mb-2 bg-cyan-100 min-h-[100px]">
+      <Box className="flex flex-col justify-center border-2 border-purple-700 rounded-xl p-1 mb-2 bg-cyan-100 min-h-[100px]">
         {filesToProcess.length > 0 && (
           <Box>
             <Box className="mt-3 ml-5 mr-5">
@@ -133,49 +133,41 @@ const Dropzone: React.FC<DropzoneProps> = ({
                 fileCount={filesToProcess.length}
               />
             </Box>
-            <Box className="flex justify-between">
-              {/* {fileProgressValue < 100 ? (
-                <Typography color="primary" className="text-xs">
-                  {`Uploading ${progress}/${filesToProcess.length}`}
-                </Typography>
-              ) : (
-                <Typography color="primary" className="text-xs">
-                  {`Uploaded ${progress}/${filesToProcess.length}`}
-                </Typography>
-              )} */}
-            </Box>
+            <Box className="flex justify-between"></Box>
           </Box>
         )}
-        <List>
+        <List className="grid grid-cols-2 gap-1">
           {filesToProcess.map((file, index) => {
             const status = statuses[index] || 0;
             return (
-              <ListItem key={index} className="p-1">
+              <ListItem key={index} className="pl-1 pr-1 pb-1 pt-0">
                 <ListItemIcon>
                   <CardMedia
                     component="img"
                     alt="Uploaded File"
                     src={URL.createObjectURL(file)}
                     title="Uploaded File"
-                    className="w-10 h-10 object-cover mr-4"
+                    className="w-10 h-10 object-cover mr-0"
                   />
                 </ListItemIcon>
                 <Box width={1}>
                   <Box>
-                    <Typography color="primary">{file.name}</Typography>
+                    <Typography className="m-0" color="primary">
+                      {file.name}
+                    </Typography>
                   </Box>
                   <Box className="flex items-center m-0">
                     <Box className="w-full h-1 bg-gray-200 rounded-full">
                       <LinearProgress variant="determinate" value={status} />
                     </Box>
-                    <Box className="ml-5 w-7 h-7 rounded-full bg-white flex items-center justify-center">
+                    <Box className="ml-2 w-3 h-3 rounded-full bg-white flex items-center justify-center">
                       {status < 100 ? (
                         <Typography
                           color="primary"
-                          className="text-xs"
+                          style={{ fontSize: "8px" }}
                         >{`${status}%`}</Typography>
                       ) : status === 100 ? (
-                        <DoneIcon color="primary" />
+                        <DoneIcon color="primary" style={{ fontSize: 10 }} />
                       ) : null}
                     </Box>
                   </Box>

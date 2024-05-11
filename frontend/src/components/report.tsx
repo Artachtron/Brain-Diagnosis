@@ -48,8 +48,8 @@ const Report = ({ input, output, progress }) => {
   console.log(labels);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">
+    <div className="border-2 border-purple-700 rounded-xl p-5 mb-2 bg-cyan-100">
+      <h1 className="text-3xl font-bold mb-4 text-center">
         Diagnosis Report for <span className="text-purple-800">{disease}</span>
       </h1>
       <div className="grid grid-cols-3 gap-0">
