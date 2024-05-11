@@ -92,10 +92,10 @@ class Classifier:
             "ModerateDemented",
         ],
         label_format={
-            "NonDemented": "No Dementia",
-            "VeryMildDemented": "Very Mild Dementia",
-            "MildDemented": "Mild Dementia",
-            "ModerateDemented": "Moderate Dementia",
+            "NonDemented": "None",
+            "VeryMildDemented": "Very Mild",
+            "MildDemented": "Mild",
+            "ModerateDemented": "Moderate",
         },
     )
     STROKE = Model(

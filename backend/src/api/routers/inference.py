@@ -39,6 +39,7 @@ async def diagnose(files: list[UploadFile] = File(...), disease: str = Form(...)
             result = model.classify(img)
             result["disease"] = disease
             result["filename"] = files[idx].filename
+            result["classes"] = list(model.label_format.values())
             yield json.dumps(result) + "\n"
 
     return StreamingResponse(stream_results(), media_type="text/event-stream")
