@@ -51,7 +51,7 @@ const Report = ({ input, output, progress }) => {
   return (
     <div
       className="border-2 border-purple-700 rounded-xl p-5 mb-2"
-      style={{ backgroundColor: "#ccccff" }}
+      style={{ backgroundColor: "#ebc9ff" }}
     >
       <h1 className="text-3xl mb-4 text-center">
         Diagnosis Report for{" "}

@@ -96,8 +96,9 @@ const Dropzone: React.FC<DropzoneProps> = ({
     <FormControl fullWidth>
       {/* <label className="text-gray-500">{label}</label> */}
       <Box
+        style={{ backgroundColor: "#cae9ff" }}
         {...getRootProps({
-          className: `flex flex-col items-center justify-center border-2 border-dashed border-blue-700 rounded-xl p-2 cursor-pointer mb-2 bg-cyan-100`,
+          className: `flex flex-col items-center justify-center border-2 border-dashed border-blue-700 rounded-xl p-2 cursor-pointer mb-2`,
         })}
       >
         <Box className="flex flex-col items-center justify-center mb-5">
@@ -124,7 +125,10 @@ const Dropzone: React.FC<DropzoneProps> = ({
       </Box>
       {/* Progress status */}
       {filesToProcess.length > 0 && (
-        <Box className="flex flex-col justify-center border-2 border-blue-700 rounded-xl p-1 mb-2 bg-cyan-100 min-h-[100px]">
+        <Box
+          style={{ backgroundColor: "#cae9ff" }}
+          className="flex flex-col justify-center border-2 border-blue-700 rounded-xl p-1 mb-2 min-h-[100px]"
+        >
           {filesToProcess.length > 0 && (
             <Box>
               <Box className="mt-3 ml-5 mr-5">
