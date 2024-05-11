@@ -49,6 +49,8 @@ class Model:
         img = img.resize(self.input_shape)
         img_array = image.img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)
+        if img_array.shape[3] == 1:
+            img_array = np.repeat(img_array, 3, axis=3)
         processed_img = self.preprocessor(img_array)
         return processed_img
 

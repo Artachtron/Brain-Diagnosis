@@ -24,10 +24,6 @@ export default function Diagnosis() {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    console.log(progress);
-  }, [progress]);
-
   function splitResponse(response) {
     if (!response) return null;
     // console.log(response);

@@ -14,7 +14,7 @@ const formatConfidence = (confidence) => {
 
 const Report = ({ input, output, progress }) => {
   const disease = input.disease;
-  console.log(input);
+  console.log(output.length);
 
   return (
     <div>

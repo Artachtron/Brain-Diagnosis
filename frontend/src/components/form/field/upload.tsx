@@ -183,21 +183,21 @@ const Dropzone: React.FC<DropzoneProps> = ({
           {filesToProcess.map((file, index) => {
             const status = statuses[index] || 0;
             return (
-              <ListItem key={index}>
+              <ListItem key={index} className="p-1">
                 <ListItemIcon>
                   <CardMedia
                     component="img"
                     alt="Uploaded File"
                     src={URL.createObjectURL(file)}
                     title="Uploaded File"
-                    className="w-24 h-24 object-cover mr-4"
+                    className="w-10 h-10 object-cover mr-4"
                   />
                 </ListItemIcon>
                 <Box width={1}>
                   <Box>
                     <Typography color="primary">{file.name}</Typography>
                   </Box>
-                  <Box className="flex items-center mt-2">
+                  <Box className="flex items-center m-0">
                     <Box className="w-full h-1 bg-gray-200 rounded-full">
                       <LinearProgress variant="determinate" value={status} />
                     </Box>

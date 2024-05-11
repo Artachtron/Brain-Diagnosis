@@ -97,19 +97,20 @@ export const backendRequest = async (
 };
 
 export function streamingResponse(response, setData) {
-  let data = "";
+  let data = new Set();
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
 
   return new Promise((resolve, reject) => {
     reader.read().then(function process({ done, value }) {
       if (done) {
-        resolve(data);
+        resolve(Array.from(data).join(""));
         return;
       }
-      data += decoder.decode(value);
+      const newData = decoder.decode(value);
+      data.add(newData);
       if (setData) {
-        setData((prevData) => prevData + data);
+        setData((prevData) => prevData + newData);
       }
       reader.read().then(process).catch(reject);
     });

@@ -22,10 +22,7 @@ const DiagnosisForm = ({
     }
 
     sendFormData("diagnose", form_data)
-      .then(streamingResponse)
-      .then((data) => {
-        setResponse(data);
-      })
+      .then((response) => streamingResponse(response, setResponse))
       .catch(console.error);
   };
 
