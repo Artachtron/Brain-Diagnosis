@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+*.env
+.git
+.dockerignore
+Dockerfile
+Dockerfile.*
+dist
+.vscode/
+.history/
+**/__pycache__/
+*.pyc
