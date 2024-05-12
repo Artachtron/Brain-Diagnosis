@@ -3,7 +3,15 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PendingIcon from "@mui/icons-material/Pending";
 import React from "react";
 
-const FileProgressBar = ({ value, fileCount }) => {
+interface FileProgressBarProps {
+  value: number;
+  fileCount: number;
+}
+
+const FileProgressBar: React.FC<FileProgressBarProps> = ({
+  value,
+  fileCount,
+}) => {
   const segmentWidth = 100 / fileCount;
 
   return (

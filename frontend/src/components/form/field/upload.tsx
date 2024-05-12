@@ -3,34 +3,27 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button, FormControl, LinearProgress, CardMedia } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Typography } from "@mui/material";
 import { List, ListItem } from "@mui/material";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DoneIcon from "@mui/icons-material/Done";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Box from "@mui/material/Box";
-import { uploadFileWithProgress } from "@/utils/backend";
 import FileProgressBar from "./file_progress_bar";
 
 interface DropzoneProps {
-  label: string;
-  files: string[];
-  setFiles: React.Dispatch<React.SetStateAction<string[]>>;
+  setFiles: (files: File[]) => void;
   analyzed?: number;
   multiple?: boolean;
 }
 
 const Dropzone: React.FC<DropzoneProps> = ({
-  label,
-  files = [],
   setFiles,
   analyzed = 0,
   multiple = true,
 }) => {
   const onDrop = useCallback(
-    (acceptedFiles) => {
+    (acceptedFiles: File[]) => {
       setFiles(acceptedFiles);
     },
     [setFiles]
@@ -59,6 +52,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
   }, [setStatuses]);
 
   useEffect(() => {
+    console.log("analyzed", analyzed);
     if (analyzed === 0) {
       setStatuses([0]);
       return;
@@ -87,14 +81,13 @@ const Dropzone: React.FC<DropzoneProps> = ({
     });
   }, [analyzed]);
 
-  const filesProgress = (progress) => {
+  const filesProgress = (progress: number) => {
     return (progress / filesToProcess.length) * 100;
   };
   const fileProgressValue = filesProgress(analyzed);
 
   return (
     <FormControl fullWidth>
-      {/* <label className="text-gray-500">{label}</label> */}
       <Box
         style={{ backgroundColor: "#cae9ff" }}
         {...getRootProps({

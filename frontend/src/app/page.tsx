@@ -10,12 +10,12 @@ export default function Home() {
       </Link>
       <Link href="/diagnosis?disease=stroke">
         <Button variant="contained" color="primary" className="mx-2 p-10">
-          Stroke
+          Brain Stroke
         </Button>
       </Link>
       <Link href="/diagnosis?disease=tumor">
         <Button variant="contained" color="primary" className="mx-2 p-10">
-          Tumor
+          Brain Tumor
         </Button>
       </Link>
     </div>

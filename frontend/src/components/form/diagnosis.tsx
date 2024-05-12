@@ -5,13 +5,32 @@ import FormBuilder from "@/components/form/form_builder";
 import Dropzone from "@/components/form/field/upload";
 import { sendFormData, streamingResponse } from "@/utils/backend";
 
-const DiagnosisForm = ({ formData, setFormData, setResponse, analyzed }) => {
-  const onSubmit = async (data) => {
+export type formData = {
+  disease: string;
+  files?: File[];
+};
+
+interface DiagnosisFormProps {
+  formData: formData;
+  setFormData: React.Dispatch<React.SetStateAction<formData>>;
+  setResponse: (response: any) => void;
+  analyzed: number;
+}
+
+const DiagnosisForm: React.FC<DiagnosisFormProps> = ({
+  formData,
+  setFormData,
+  setResponse,
+  analyzed,
+}) => {
+  const onSubmit = async (data: formData) => {
     const form_data = new FormData();
     form_data.append("disease", formData.disease);
 
-    for (const file of data.files) {
-      form_data.append("files", file);
+    if (data.files) {
+      for (const file of data.files) {
+        form_data.append("files", file);
+      }
     }
 
     sendFormData("diagnose", form_data)
@@ -19,7 +38,7 @@ const DiagnosisForm = ({ formData, setFormData, setResponse, analyzed }) => {
       .catch(console.error);
   };
 
-  const setFiles = (files) => {
+  const setFiles = (files: File[]) => {
     setFormData({ ...formData, files: files });
   };
 
@@ -29,15 +48,9 @@ const DiagnosisForm = ({ formData, setFormData, setResponse, analyzed }) => {
       onSubmit={onSubmit}
       formData={formData}
       setFormData={setFormData}
-      children={[
-        <Dropzone
-          key="dropzone"
-          label="Upload a file"
-          setFiles={setFiles}
-          analyzed={analyzed}
-        />,
-      ]}
-    />
+    >
+      <Dropzone key="dropzone" setFiles={setFiles} analyzed={analyzed} />
+    </FormBuilder>
   );
 };
 

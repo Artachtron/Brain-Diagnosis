@@ -1,12 +1,13 @@
 "use client";
 import DiagnosisForm from "@/components/form/diagnosis";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Report from "@/components/report";
 import { useSearchParams } from "next/navigation";
+import { formData } from "@/components/form/diagnosis";
 
-export default function Diagnosis() {
+function DiagnosisComponent() {
   const searchParams = useSearchParams();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<formData>({
     disease: searchParams.get("disease") || "",
   });
   const [response, setResponse] = useState("");
@@ -19,12 +20,12 @@ export default function Diagnosis() {
 
   useEffect(() => {
     if (searchParams.get("disease")) {
-      setFormData({ disease: searchParams.get("disease") });
+      setFormData({ disease: searchParams.get("disease") || "alzheimer" });
     }
   }, [searchParams]);
 
-  function splitResponse(response) {
-    if (!response) return null;
+  function splitResponse(response: string) {
+    if (!response) return [];
     // console.log(response);
     return response
       .split("\n")
@@ -52,5 +53,13 @@ export default function Diagnosis() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function Diagnosis() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DiagnosisComponent />
+    </Suspense>
   );
 }

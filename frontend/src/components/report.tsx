@@ -10,28 +10,41 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { formData } from "./form/diagnosis";
 import { useState, useEffect } from "react";
-import { useTheme } from "@mui/system";
-const colorMap = {
+
+const colorMap: Record<number, string> = {
   0: "#013a63",
   1: "#01497c",
   2: "#2a6f97",
   10: "#468faf",
 };
 
-const formatConfidence = (confidence) => {
+type diagnosis = {
+  filename: string;
+  label: string;
+  confidence: number;
+  gravity: number;
+  classes: string[];
+};
+
+interface ReportProps {
+  input: formData;
+  output: diagnosis[];
+  progress: number;
+}
+
+const formatConfidence = (confidence: number) => {
   return (confidence * 100).toFixed(2) + "%";
 };
 
-const Report = ({ input, output, progress }) => {
+const Report: React.FC<ReportProps> = ({ input, output, progress }) => {
   const disease = input.disease;
-  const [labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState<Record<string, number>>({});
   const classes = output[0].classes;
-  const theme = useTheme();
 
   useEffect(() => {
-    // if (input.files.length === output.length) {
-    const labelCounts = output.reduce((acc, item) => {
+    const labelCounts = output.reduce<Record<string, number>>((acc, item) => {
       acc[item.label] = (acc[item.label] || 0) + 1;
       return acc;
     }, {});
@@ -44,7 +57,7 @@ const Report = ({ input, output, progress }) => {
 
     setLabels(labelCounts);
     // }
-  }, [output]);
+  }, [output, classes]);
 
   console.log(labels);
 
@@ -65,7 +78,7 @@ const Report = ({ input, output, progress }) => {
       <div className="grid grid-cols-3 gap-0">
         {output.map((item, index) => {
           if (index >= progress) return null;
-          const file = input.files.find((file) => file.name === item.filename);
+          const file = input.files?.find((file) => file.name === item.filename);
           const colorClass = colorMap[item.gravity] || "text-black";
           return (
             <div key={index} className="flex items-center mb-4">
