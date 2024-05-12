@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/theme";
 const inter = Inter({ subsets: ["latin"] });
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <ThemeProvider theme={theme}>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Navbar />
+          {children}
+        </body>
       </html>
     </ThemeProvider>
   );
