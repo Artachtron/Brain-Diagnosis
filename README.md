@@ -1,6 +1,6 @@
 # Brain Diseases Diagnosis
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/keras/keras-original.svg" title="Keras" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg" title="PyTorch" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/scikitlearn/scikitlearn-original.svg" title="Scikit-learn" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg" title="FastAPI" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg" title="Matplotlib" width="25" /> <img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" title="Seaborn" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" title="Pandas" width="25" /> <img src="https://raw.githubusercontent.com/xarray-contrib/xarray.dev/main/public/Xarray-assets/Icon/Xarray_Icon_Final.png" title="Xarray" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" title="Next.js" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" title="React" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/materialui/materialui-original.svg" title="Material-UI" width="25" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/keras/keras-original.svg" title="Keras" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg" title="PyTorch" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/scikitlearn/scikitlearn-original.svg" title="Scikit-learn" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg" title="FastAPI" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matplotlib/matplotlib-original.svg" title="Matplotlib" width="25" /> <img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" title="Seaborn" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" title="Pandas" width="25" /> <img src="https://raw.githubusercontent.com/xarray-contrib/xarray.dev/main/public/Xarray-assets/Icon/Xarray_Icon_Final.png" title="Xarray" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" title="Next.js" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" title="React" width="25" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/materialui/materialui-original.svg" title="Material-UI" width="25" /><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" title="Docker" width="25" />
 
 ## Description
 
@@ -115,7 +115,7 @@ To run this project from a terminal, follow these steps:
 
 3. **Access Homepage:**
 
-   Open your web browser and navigate to: [http://localhost:3000/](http://localhost:3000/)
+   Open your web browser and navigate to [http://localhost:3000/](http://localhost:3000/)
 
 
 After completing these steps, you should have both the backend API and frontend application running. You can upload CT scan images through the frontend interface and obtain diagnostic results.
@@ -135,6 +135,6 @@ To use this project from a Docker container, follow these steps:
     ```
 4. **Access Homepage:**
 
-   Open your web browser and navigate to: [http://localhost:3000/](http://localhost:3000/)
+   Open your web browser and navigate to [http://localhost:3000/](http://localhost:3000/)
 
 After completing these steps, your project's frontend and backend will be set up and running in Docker containers, ready for use.
