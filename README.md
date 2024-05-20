@@ -83,6 +83,7 @@ After completing these steps, your project's frontend and backend will be set up
 To use this project, follow these steps:
 
 ### From Terminal
+To run this project from a terminal, follow these steps:
 
 #### Backend
 
