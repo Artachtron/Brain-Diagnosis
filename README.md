@@ -15,7 +15,20 @@ By applying advanced computer vision techniques such as stratified k-fold cross-
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-- [Features](#features)
+  
+## Disclaimer
+
+Please note that images, training notebooks, and models are not included in this repository.
+
+Datasets can be downloaded from the following sources:
+- Alzheimer's: [Kaggle - Augmented Alzheimer MRI Dataset](https://www.kaggle.com/datasets/uraninjo/augmented-alzheimer-mri-dataset)
+- Brain Tumor: [Kaggle - Brain MRI Images for Brain Tumor Detection](https://www.kaggle.com/datasets/navoneel/brain-mri-images-for-brain-tumor-detection)
+- Brain Stroke: [Kaggle - Brain Stroke CT Image Dataset](https://www.kaggle.com/datasets/afridirahman/brain-stroke-ct-image-dataset)
+
+If you choose to use your own models, please create a folder within `backend/resources/models`. The models should be in `.h5` file format to be loaded by Keras.
+
+
+If you choose to use your own models, please create a folder within backend/resources/models. The models should be in .h5 file format to be loaded by Keras.
 
 ## Installation
 
@@ -124,5 +137,3 @@ To use this project from a Docker container, follow these steps:
    Open your web browser and navigate to: [http://localhost:3000/](http://localhost:3000/)
 
 After completing these steps, your project's frontend and backend will be set up and running in Docker containers, ready for use.
-
-## Features
